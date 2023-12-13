@@ -1,0 +1,55 @@
+{% extends 'base.html' %} {% block content %}
+<main class="container">
+  <h1 class="text-center display-6 py-2" style="color: #96c738">
+    PACIENTES DE LA CLINICA
+  </h1>
+  <div><p>Total de Pacientes: {{ total }}</p>
+    <a class="btn btn-success "
+    href="{% url 'agregarpaciente' %}">Agregar Paciente</a>    
+  </div>
+
+  <div class="row">
+    {% for paciente in pacientes %}
+    <div class="col-md-4 mb-3">
+      <div class="border rounded p-3 d-flex align-items-center">
+        <div>
+          <a
+            class="list-group-item"
+            href="{% url 'editPaciente' paciente.id %}"
+          >
+            <header class="d-flex justify-content-between">
+              {% load static %} {% if paciente.genero == 'masculino' %}
+              <img
+                src="{% static 'images/pac_masc.png' %}"
+                alt="Imagen del paciente"
+                class="img-right"
+              />
+              {% else %}
+              <img
+                src="{% static 'images/pac_fem.png' %}"
+                alt="Imagen del paciente"
+                class="img-right"
+              />
+              {% endif %}
+              <h4>
+                {{ paciente.nombre }} {{ paciente.appat }} {{ paciente.apmat }}
+              </h4>
+            </header>
+            <p>COD-paciente: PAC-{{ paciente.id }}</p>
+            <h5 style="color: green; font-style: italic">
+              Fecha Nacimiento: {{ paciente.fecha_nac }}
+            </h5>
+            <p>Direccion: {{ paciente.direccion }}</p>
+            <p>Telefono: {{ paciente.telefono }}</p>
+            <p style="text-align: center; color: blue">
+              Fecha Registro: {{ paciente.fecha_reg }}
+            </p>
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</main>
+
+{% endblock %}

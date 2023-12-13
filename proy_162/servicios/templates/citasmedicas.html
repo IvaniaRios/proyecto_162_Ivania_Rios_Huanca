@@ -1,0 +1,63 @@
+{% extends 'base.html' %} {% block content %}
+<main class="container">
+  <h1 class="text-center display-6 py-2" style="color: #96c738">
+    CITAS MEDICAS DE LA CLINICA
+  </h1>
+  <div><p>Total de Citas Medicas: {{ total }}</p>
+    <a class="btn btn-success "
+    href="{% url 'agregarcitamedica' %}">Agregar Cita Medica</a>    
+  </div>
+
+  <div class="row">
+    {% for cita , medico , paciente in citas %}
+    <div class="col-md-6 mb-3">
+      <div class="border rounded p-3 d-flex align-items-center">
+        <div>
+          <a
+            class="list-group-item"
+            href="{% url 'editcitamedica' cita.id %}"
+          >
+            <header class="d-flex justify-content-between">
+                {% load static %}
+                {% if paciente.genero == 'masculino' %}
+                <img src="{% static 'images/pac_masc.png' %}" alt="Imagen paciente" class="img-right" />
+                {% else %}
+                <img src="{% static 'images/pac_fem.png' %}" alt="Imagen del medico" class="img-right" />
+                {% endif %}
+                <h4>Paciente: {{ paciente.nombre }} {{ paciente.appat }} {{ paciente.apmat }}</h4>  
+                  
+            </header>
+           
+            <h5 style=" color: rgb(25, 25, 60) ; text-align: center;">
+             Motivo :  {{ cita.motivo }}
+            </h5>
+            <p style=" color: rgb(0, 41, 128); font-style: italic;">
+                Fecha Cita:  {{ cita.fecha_cita }}
+               </p>
+               <p style=" color: green; font-style: italic;">
+                Horario:  {{ cita.hora_inicio }} a {{ cita.hora_fin }}
+               </p>
+               <p style=" color: rgb(0, 41, 128); font-style: italic;">
+                Telefono Contacto:  {{ paciente.telefono }}
+               </p>
+            <p style=" color: green; font-style: italic;">
+             Medico:   {{ medico.nombre }}  {{ medico.appat }}  {{ medico.apmat }}
+             </p>
+             {% if cita.atendido %}
+             <h5 style="text-align: center; color: rgb(6, 102, 8); font-style: italic;">
+                Estado:  Atentido
+             </h5>
+             {% else %}
+             <h5 style="text-align: center; color: rgb(204, 34, 34); font-style: italic;">
+                Estado:  Pendiente
+             </h5>
+             {% endif %}
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</main>
+
+{% endblock %}

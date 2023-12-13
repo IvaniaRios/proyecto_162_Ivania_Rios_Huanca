@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="container">
+  <h1 class="text-center display-6 py-2" style="color: #96c738">
+    MEDICOS DE LA CLINICA
+  </h1>
+  <div>
+    <p>Total de medicos: {{ total }}</p>
+    <a class="btn btn-success" href="{% url 'agregarmedico' %}">Agregar Medico</a>
+  </div>
+
+  <div class="row">
+    {% for medico, horarios, especialidades in medicos %}
+    <div class="col-md-4 mb-3">
+      <div class="border rounded p-3 d-flex align-items-center">
+        <div>
+          <a class="list-group-item" href="{% url 'editmedico' medico.id %}">
+            <header class="d-flex justify-content-between">
+              {% load static %}
+              {% if medico.genero == 'masculino' %}
+              <img src="{% static 'images/pac_masc.png' %}" alt="Imagen del medico" class="img-right" />
+              {% else %}
+              <img src="{% static 'images/pac_fem.png' %}" alt="Imagen del medico" class="img-right" />
+              {% endif %}
+              <h4>{{ medico.nombre }} {{ medico.appat }} {{ medico.apmat }}</h4>
+            </header>
+            <p>COD-medico: MED-{{ medico.id }}</p>
+            <p>Email: {{ medico.email }}</p>
+            <p>Fecha Nacimiento: {{ medico.fecha_nac }}</p>
+            <p>Direccion: {{ medico.direccion }}</p>
+            <p>Telefono: {{ medico.telefono }}</p>       
+            <h5 style="color: green; font-style: italic; text-align: center;">Especialidades del Medico</h5>
+            <ul>
+              {% for especialidad in especialidades %}
+              <li>
+                <p> {{ especialidad }}</p>
+               
+              </li>
+              {% empty %}
+              <li>Medico General</li>
+              {% endfor %}
+            </ul>
+            <h5 style="color: green; font-style: italic ; text-align: center;">Horarios del Medico</h5>
+            <ul>
+              {% for horario in horarios %}
+              <li>
+                <p>Dias: {{ horario.dia_semana }}</p>
+                <p>Turno: {{ horario.turno }}</p>
+                <p>Horario: {{ horario.hora_inicio }} a {{ horario.hora_fin }}</p>
+              </li>
+              {% empty %}
+              <li>Medico al llamado.</li>
+              {% endfor %}
+            </ul>
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</main>
+{% endblock %}
